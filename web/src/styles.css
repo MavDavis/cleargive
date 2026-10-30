@@ -1,0 +1,107 @@
+:root {
+  --bg: #f7f5ef;
+  --surface: #ffffff;
+  --text: #1d2321;
+  --muted: #6b726f;
+  --border: #e2ded3;
+  --primary: #1f6f5c;
+  --primary-text: #ffffff;
+  --in: #1f6f5c;
+  --out: #a2522b;
+  --error: #b42318;
+  font-family: Inter, system-ui, -apple-system, sans-serif;
+  color: var(--text);
+  background: var(--bg);
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --bg: #121614;
+    --surface: #1b211e;
+    --text: #e9ece9;
+    --muted: #98a19c;
+    --border: #2c3430;
+    --primary: #4fb394;
+    --primary-text: #0d1311;
+    --in: #4fb394;
+    --out: #e08b5f;
+    --error: #f97066;
+  }
+}
+
+* { box-sizing: border-box; }
+body { margin: 0; background: var(--bg); }
+a { color: var(--primary); }
+
+header {
+  display: flex; justify-content: space-between; align-items: center; gap: 16px;
+  padding: 16px 24px; border-bottom: 1px solid var(--border); flex-wrap: wrap;
+}
+header nav { display: flex; gap: 16px; align-items: center; }
+header nav a { text-decoration: none; color: var(--text); }
+.brand { font-weight: 800; font-size: 1.25rem; text-decoration: none; color: var(--primary); }
+
+main { max-width: 1100px; margin: 0 auto; padding: 24px 16px 64px; }
+footer { text-align: center; color: var(--muted); font-size: 0.85rem; padding: 24px 16px; }
+
+h1 { margin: 0 0 8px; line-height: 1.15; }
+h2 { font-size: 1.1rem; margin: 0 0 12px; }
+.muted { color: var(--muted); }
+.small { font-size: 0.85rem; }
+.error { color: var(--error); }
+.status { font-size: 0.9rem; color: var(--muted); margin: 8px 0 0; }
+
+.hero { padding: 32px 0; max-width: 680px; }
+.hero h1 { font-size: 2.4rem; }
+.hero p { font-size: 1.1rem; color: var(--muted); }
+
+.card {
+  background: var(--surface); border: 1px solid var(--border); border-radius: 12px;
+  padding: 20px; margin-bottom: 16px;
+}
+.card.narrow { max-width: 560px; margin: 0 auto; }
+.grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); gap: 16px; }
+.org-card { text-decoration: none; color: inherit; }
+.org-card:hover { border-color: var(--primary); }
+
+.columns { display: grid; grid-template-columns: 1fr 360px; gap: 16px; align-items: start; }
+@media (max-width: 800px) {
+  .columns { grid-template-columns: 1fr; }
+  .give-first > :last-child { order: -1; }
+}
+
+.stats { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 12px; margin: 16px 0; }
+.stat { display: flex; flex-direction: column; gap: 4px; background: var(--surface); border: 1px solid var(--border); border-radius: 12px; padding: 16px; }
+.stat strong { font-size: 1.3rem; }
+
+label { display: flex; flex-direction: column; gap: 6px; margin-bottom: 12px; font-size: 0.9rem; font-weight: 500; }
+input, select, textarea {
+  font: inherit; padding: 10px 12px; border-radius: 8px; border: 1px solid var(--border);
+  background: var(--bg); color: var(--text); width: 100%;
+}
+button, .button {
+  font: inherit; font-weight: 600; padding: 10px 16px; border-radius: 8px; border: 1px solid var(--primary);
+  background: var(--primary); color: var(--primary-text); cursor: pointer; text-decoration: none; display: inline-block;
+}
+button.secondary { background: transparent; color: var(--primary); }
+button:disabled { opacity: 0.5; cursor: not-allowed; }
+form.card > button, .card > button { margin-top: 4px; margin-right: 8px; }
+.tabs { display: flex; gap: 8px; margin-bottom: 12px; }
+
+.badge {
+  display: inline-block; font-size: 0.7rem; font-weight: 600; padding: 2px 8px; margin-left: 6px;
+  border-radius: 999px; background: color-mix(in srgb, var(--primary) 15%, transparent); color: var(--primary);
+  vertical-align: middle;
+}
+
+table { width: 100%; border-collapse: collapse; }
+td { padding: 8px 0; border-bottom: 1px solid var(--border); }
+.num { text-align: right; font-variant-numeric: tabular-nums; }
+
+.ledger { list-style: none; margin: 0; padding: 0; }
+.ledger li { padding: 10px 0; border-bottom: 1px solid var(--border); font-size: 0.92rem; line-height: 1.5; }
+.ledger li.in strong { color: var(--in); }
+.ledger li.out strong { color: var(--out); }
+.tx { margin-left: 8px; font-size: 0.8rem; color: var(--muted); }
+.payouts { list-style: none; padding: 6px 0 6px 12px; margin: 4px 0; border-left: 2px solid var(--border); font-size: 0.85rem; }
+button.link { background: none; border: none; padding: 0; color: var(--primary); text-decoration: underline; font-weight: inherit; cursor: pointer; }
