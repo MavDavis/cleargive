@@ -1,6 +1,6 @@
 import type { Address, PublicClient } from 'viem'
 import { cfaForwarderAbi, vaultAbi } from '../abi'
-import { CFA_V1_FORWARDER, G_DOLLAR, SUPERFLUID_SUBGRAPH } from '../config'
+import { CFA_V1_FORWARDER, G_DOLLAR, SUPERFLUID_SUBGRAPH, TESTNET } from '../config'
 
 const PAGE = 100n
 
@@ -50,13 +50,15 @@ export async function loadLedger(client: PublicClient, vault: Address) {
       ),
       read<bigint>('uniqueVerifiedDonors'),
       read<bigint>('uniqueBeneficiaries'),
-      client.readContract({
-        address: CFA_V1_FORWARDER,
-        abi: cfaForwarderAbi,
-        functionName: 'getAccountFlowrate',
-        args: [G_DOLLAR, vault],
-      }),
-      loadStreams(vault).catch(() => [] as Stream[]), // the giver list is nice-to-have
+      TESTNET
+        ? 0n
+        : client.readContract({
+            address: CFA_V1_FORWARDER,
+            abi: cfaForwarderAbi,
+            functionName: 'getAccountFlowrate',
+            args: [G_DOLLAR, vault],
+          }),
+      TESTNET ? ([] as Stream[]) : loadStreams(vault).catch(() => [] as Stream[]), // the giver list is nice-to-have
     ])
 
   const entries: LedgerEntry[] = [

@@ -1,6 +1,7 @@
 import { Link, Route, Routes } from 'react-router-dom'
 import { useAccount, useConnect, useDisconnect, useSwitchChain } from 'wagmi'
-import { celo } from 'wagmi/chains'
+import { CHAIN, TESTNET } from './config'
+import TestnetBanner from './components/TestnetBanner'
 import { short } from './lib/format'
 import Home from './pages/Home'
 import CreateOrg from './pages/CreateOrg'
@@ -18,8 +19,8 @@ function WalletButton() {
       <button onClick={() => connect({ connector: connectors[0] })}>Connect wallet</button>
     )
   }
-  if (chainId !== celo.id) {
-    return <button onClick={() => switchChain({ chainId: celo.id })}>Switch to Celo</button>
+  if (chainId !== CHAIN.id) {
+    return <button onClick={() => switchChain({ chainId: CHAIN.id })}>Switch to {CHAIN.name}</button>
   }
   return (
     <button className="secondary" onClick={() => disconnect()} title="Disconnect">
@@ -42,6 +43,7 @@ export default function App() {
           <WalletButton />
         </nav>
       </header>
+      {TESTNET && <TestnetBanner />}
       <main>
         <Routes>
           <Route path="/" element={<Home />} />

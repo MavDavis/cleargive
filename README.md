@@ -37,6 +37,23 @@ Celo addresses used (same as GoodDollar's own widgets):
 | GoodID identity | `0xC361A6E67822a0EDc17D899227dd9FC50BD62F42` |
 | Superfluid CFAv1Forwarder | `0xcfA132E353cB4E398080B9700609bb008eceB125` |
 
+## Test network demo (Celo Sepolia)
+
+GoodDollar isn't deployed on Celo Sepolia, so the demo uses valueless stand-ins from `contracts/src/testnet`: `TestGoodDollar` (anyone can call `faucet()`) and `TestIdentity` (anyone can call `verifyMe()`). Superfluid streaming is hidden on testnet.
+
+| | Celo Sepolia |
+|---|---|
+| ClearGiveRegistry | `0xDD4F851168392bc375e19AAF81554aaE5C82e68f` |
+| Demo vault (Hope Community Church) | `0xf4dD8cE5C8aECeE8D9FFeb933B02d12c2107C1AE` |
+| TestGoodDollar | `0x913E3B590D6D47eC11E4B4FB42C8f7f4C2EF8115` |
+| TestIdentity | `0x6cec9d83Da181807Af6984f20b101ddbC0a29ea8` |
+
+```bash
+forge script script/DeployTestnet.s.sol --rpc-url celo_sepolia --account <name> --sender <address> --broadcast
+```
+
+The site uses testnet unless built with `VITE_NETWORK=mainnet`.
+
 ## Web
 
 ```bash

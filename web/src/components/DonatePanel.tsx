@@ -2,7 +2,7 @@ import { useState } from 'react'
 import { useAccount, useReadContract } from 'wagmi'
 import type { Address } from 'viem'
 import { cfaForwarderAbi, erc20Abi, vaultAbi } from '../abi'
-import { CFA_V1_FORWARDER, G_DOLLAR, GOODDOLLAR_VERIFY_URL } from '../config'
+import { CFA_V1_FORWARDER, G_DOLLAR, GOODDOLLAR_VERIFY_URL, TESTNET } from '../config'
 import { flowRateToMonthly, formatG, monthlyToFlowRate, toWei } from '../lib/format'
 import { useTx } from '../lib/useTx'
 
@@ -39,7 +39,7 @@ export default function DonatePanel({ vault, categories, onDonated }: Props) {
     abi: cfaForwarderAbi,
     functionName: 'getFlowrate',
     args: [G_DOLLAR, address!, vault],
-    query: { enabled: Boolean(address) },
+    query: { enabled: Boolean(address) && !TESTNET },
   })
 
   const refresh = () => {
@@ -98,6 +98,8 @@ export default function DonatePanel({ vault, categories, onDonated }: Props) {
         Balance: {balance.data !== undefined ? formatG(balance.data) : '…'}
         {verified.data ? (
           <span className="badge">Verified human</span>
+        ) : TESTNET ? (
+          <> · Use “Verify me” in the banner above to show as a verified donor</>
         ) : (
           <>
             {' · '}
@@ -109,14 +111,16 @@ export default function DonatePanel({ vault, categories, onDonated }: Props) {
         )}
       </p>
 
-      <div className="tabs">
-        <button className={mode === 'once' ? '' : 'secondary'} onClick={() => setMode('once')}>
-          One-time
-        </button>
-        <button className={mode === 'monthly' ? '' : 'secondary'} onClick={() => setMode('monthly')}>
-          Monthly stream
-        </button>
-      </div>
+      {!TESTNET && (
+        <div className="tabs">
+          <button className={mode === 'once' ? '' : 'secondary'} onClick={() => setMode('once')}>
+            One-time
+          </button>
+          <button className={mode === 'monthly' ? '' : 'secondary'} onClick={() => setMode('monthly')}>
+            Monthly stream
+          </button>
+        </div>
+      )}
 
       <label>
         Amount (G${mode === 'monthly' ? ' per month' : ''})

@@ -4,7 +4,7 @@ import type { Address } from 'viem'
 import { useAccount, usePublicClient } from 'wagmi'
 import { useQuery } from '@tanstack/react-query'
 import DonatePanel from '../components/DonatePanel'
-import { EXPLORER } from '../config'
+import { EXPLORER, TESTNET } from '../config'
 import { flowRateToMonthly, formatG, receiptHref, short } from '../lib/format'
 import { loadLedger, loadPayouts } from '../lib/ledger'
 import { useOrg } from '../lib/useOrg'
@@ -66,14 +66,14 @@ export default function OrgPage() {
         <Stat
           label="Donated"
           value={formatG(o.totalDonated ?? 0n, 0)}
-          sub={`${ledger.data?.stats.verifiedDonors ?? 0} verified donors`}
+          sub={plural(ledger.data?.stats.verifiedDonors ?? 0, 'verified donor')}
         />
-        <Stat label="Streaming in" value={`${formatG(monthlyIn, 0)}/mo`} sub={ledger.data?.streams.length ? `${ledger.data.streams.length} givers` : undefined} />
-        <Stat label="Spent with receipts" value={formatG(o.totalSpent ?? 0n, 0)} sub={`${ledger.data?.stats.spends ?? 0} spends`} />
+        {!TESTNET && <Stat label="Streaming in" value={`${formatG(monthlyIn, 0)}/mo`} sub={ledger.data?.streams.length ? `${ledger.data.streams.length} givers` : undefined} />}
+        <Stat label="Spent with receipts" value={formatG(o.totalSpent ?? 0n, 0)} sub={plural(ledger.data?.stats.spends ?? 0, 'spend')} />
         <Stat
           label="Paid to verified people"
           value={formatG(o.totalToBeneficiaries ?? 0n, 0)}
-          sub={`${ledger.data?.stats.uniqueBeneficiaries ?? 0} unique humans`}
+          sub={plural(ledger.data?.stats.uniqueBeneficiaries ?? 0, 'unique human')}
         />
       </div>
 
@@ -84,7 +84,7 @@ export default function OrgPage() {
             <table>
               <tbody>
                 <tr>
-                  <td>General (incl. streams)</td>
+                  <td>{TESTNET ? 'General' : 'General (incl. streams)'}</td>
                   <td className="num">{formatG(o.generalBalance ?? 0n)}</td>
                 </tr>
                 {o.categories.slice(1).map((c, i) => (
@@ -184,3 +184,5 @@ function Payouts({ vault, spendId, count }: { vault: Address; spendId: bigint; c
     </>
   )
 }
+
+const plural = (n: number, word: string) => `${n} ${word}${n === 1 ? '' : 's'}`

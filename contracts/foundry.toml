@@ -9,3 +9,4 @@ via_ir = true
 
 [rpc_endpoints]
 celo = "https://forno.celo.org"
+celo_sepolia = "https://forno.celo-sepolia.celo-testnet.org"
