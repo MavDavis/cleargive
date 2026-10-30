@@ -33,6 +33,7 @@ export default function App() {
     <>
       <header>
         <Link to="/" className="brand">
+          <img src="/logo.svg" alt="" width={32} height={32} />
           ClearGive
         </Link>
         <nav>
